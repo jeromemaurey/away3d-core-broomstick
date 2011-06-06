@@ -1,9 +1,9 @@
 package away3d.audio
 {
 	import away3d.audio.drivers.*;
+	import away3d.containers.ObjectContainer3D;
 	import away3d.core.base.*;
 	import away3d.events.*;
-	import away3d.containers.ObjectContainer3D;
 	
 	import flash.geom.*;
 	import flash.media.*;
@@ -124,11 +124,11 @@ package away3d.audio
 		/**
 		 * Start (or resume, if paused) playback. 
 		*/
-		public function play() : void
+		public function play() : SoundChannel
 		{
 			_playing = true;
 			_paused = false;
-			_driver.play();
+			return _driver.play();
 		}
 		
 		

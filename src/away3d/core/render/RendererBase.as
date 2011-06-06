@@ -7,7 +7,7 @@ package away3d.core.render
 	import away3d.core.sort.RenderableMergeSort;
 	import away3d.core.traverse.EntityCollector;
 	import away3d.errors.AbstractMethodError;
-
+	
 	import flash.display3D.Context3D;
 	import flash.display3D.textures.TextureBase;
 	import flash.events.Event;
@@ -300,14 +300,14 @@ package away3d.core.render
 		 * @param surfaceSelector The index of a CubeTexture's face to render to.
 		 * @param additionalClearMask Additional clear mask information, in case extra clear channels are to be omitted.
 		 */
-		arcane function render(entityCollector : EntityCollector, target : TextureBase = null, surfaceSelector : int = 0, additionalClearMask : int = 7) : void
+		arcane function render(entityCollector : EntityCollector, target : TextureBase = null, surfaceSelector : int = 0, additionalClearMask : int = 7, present:Boolean = true) : void
 		{
 			if (!_stage3DProxy) return;
 			if (_viewPortInvalid) updateViewPort();
 			if (_backBufferInvalid) updateBackBuffer();
 			if (!_context) return;
 
-			executeRender(entityCollector, target, surfaceSelector, additionalClearMask);
+			executeRender(entityCollector, target, surfaceSelector, additionalClearMask, present);
 		}
 
 		/**
@@ -317,7 +317,7 @@ package away3d.core.render
 		 * @param surfaceSelector The index of a CubeTexture's face to render to.
 		 * @param additionalClearMask Additional clear mask information, in case extra clear channels are to be omitted.
 		 */
-		protected function executeRender(entityCollector : EntityCollector, target : TextureBase = null, surfaceSelector : int = 0, additionalClearMask : int = 7) : void
+		protected function executeRender(entityCollector : EntityCollector, target : TextureBase = null, surfaceSelector : int = 0, additionalClearMask : int = 7, present:Boolean = true) : void
 		{
 			_renderableSorter.sort(entityCollector);
 
@@ -328,7 +328,7 @@ package away3d.core.render
 
 			draw(entityCollector);
 
-			if (_swapBackBuffer && !target) _context.present();
+			if (_swapBackBuffer && !target && present) _context.present();
 		}
 
 		/**

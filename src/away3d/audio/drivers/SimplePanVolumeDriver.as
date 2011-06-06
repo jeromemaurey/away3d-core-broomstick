@@ -27,7 +27,7 @@ package away3d.audio.drivers
 		}
 		
 		
-		public function play() : void
+		public function play() : SoundChannel
 		{
 			var pos : Number;
 			
@@ -43,7 +43,10 @@ package away3d.audio.drivers
 			// Start playing. If paused, resume from pause position. Else,
 			// start from beginning of file.
 			pos = _paused? _pause_position : 0;
+			
 			_sound_chan = _src.play(pos, 0, _st3D.soundTransform);
+			
+			return _sound_chan;
 		}
 		
 		

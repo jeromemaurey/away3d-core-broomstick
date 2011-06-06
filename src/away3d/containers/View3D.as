@@ -13,7 +13,7 @@ package away3d.containers
 	import away3d.core.traverse.EntityCollector;
 	import away3d.filters.Filter3DBase;
 	import away3d.lights.LightBase;
-
+	
 	import flash.display.Sprite;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DTextureFormat;
@@ -312,7 +312,7 @@ package away3d.containers
 		/**
 		 * Renders the view.
 		 */
-		public function render() : void
+		public function render(present:Boolean = true) : void
 		{
 			var time : Number = getTimer();
 			var targetTexture : Texture;
@@ -345,14 +345,20 @@ package away3d.containers
 					filter.render(context, nextFilter? nextFilter.getInputTexture(context, this) : null, _camera, _depthRender);
 					filter = nextFilter;
 				}
-				context.present();
+				
+				// added conditional present for CCTV Material
+				// see http://groups.google.com/group/away3d-dev/browse_thread/thread/7b2ad43fefc688b3/54771671c04a1cde
+				if(present) context.present();
 			}
 			else
-				_renderer.render(_entityCollector);
+				_renderer.render(_entityCollector, null, 0, 7, present);
 
 			_entityCollector.cleanUp();
 			
-			fireMouseMoveEvent();
+			// disable mouse events if we don't present. Seems to throw an error otherwise
+			// TODO figure out a better way!
+			if(present) fireMouseMoveEvent();
+			
 		}
 		
 		/**

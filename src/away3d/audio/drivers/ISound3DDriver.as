@@ -1,7 +1,7 @@
 package away3d.audio.drivers
 {
-	import flash.media.*;
 	import flash.geom.*;
+	import flash.media.*;
 	
 	public interface ISound3DDriver
 	{
@@ -49,7 +49,7 @@ package away3d.audio.drivers
 		 * as invoking play() on the flash.media.Sound object used as the source sound
 		 * for the driver.
 		*/
-		function play() : void;
+		function play() : SoundChannel;
 		
 		/**
 		 * Temporarily pause playback. Resume using play(). 
